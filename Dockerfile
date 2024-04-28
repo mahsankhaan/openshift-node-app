@@ -1,13 +1,16 @@
 #FROM registry.access.redhat.com/ubi8/nodejs-20
 FROM registry.access.redhat.com/ubi8/nodejs-18:1-86 as builder
 
-RUN yum install  python3 make g++ -y \
-    && yum clean packages
-
 
 USER 0
 RUN fix-permissions ./
 USER 1001
+
+RUN yum install --disableplugin=subscription-manager python2  openssl-devel cyrus-sasl -y \
+    && yum clean --disableplugin=subscription-manager packages \
+    && ln -s /usr/bin/python2 /usr/bin/python \
+    && useradd --uid 1000 --gid 0 --shell /bin/bash --create-home node
+
 
 RUN mkdir ./app
 WORKDIR $HOME/app
