@@ -6,7 +6,7 @@ USER 0
 RUN fix-permissions ./
 USER root 
 
-RUN yum install --disableplugin=subscription-manager python3 -y \
+RUN yum install --disableplugin=subscription-manager python3 gcc-c++ -y \
     && yum clean --disableplugin=subscription-manager packages \
     && ln -s /usr/bin/python3 /usr/bin/python \
     && useradd --uid 1000 --gid 0 --shell /bin/bash --create-home node
